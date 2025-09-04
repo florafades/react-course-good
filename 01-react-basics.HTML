@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <!--web and mobile app features-->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <!--website feaqtures-->
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev@8.6.4/dayjs.js"></script>
+
+    <!--library that compiles javascript ; JSX Javascript XML ; allows us to us html within javascript-->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+<script type="text/babel">
+  // Step 1: Create a React Component
+  class App extends React.Component {
+    // The constructor initializes the state
+    constructor(props) {
+      super(props);
+      this.state = {
+        name: 'maia',
+        date: dayjs().format('MMMM D'),
+        time: dayjs().format('HH:mm:ss')
+      };
+    }
+
+    // This method is called after the component is added to the DOM
+    componentDidMount() {
+      // Set up an interval to update the time
+      this.intervalId = setInterval(() => {
+        this.setState({
+          time: dayjs().format('HH:mm:ss')
+        });
+      }, 1000);
+    }
+    
+    // This method is called right before the component is removed
+    componentWillUnmount() {
+      clearInterval(this.intervalId);
+    }
+
+    // The render method defines what the component will display
+    render() {
+      return (
+        <div>
+          <p>hello, {this.state.name}. today is {this.state.date}.</p>
+          <p>there are legions of angels in battle for you, {this.state.name}. Jesus loves you so much, and is inviting you to step more and more into His Kingdom.</p>
+          <button>enter through the narrow gate</button>
+          <p>current time: {this.state.time}</p>
+        </div>
+      );
+    }
+  }
+
+  // Step 2: Render the component
+  const container = document.querySelector('.js-container');
+  const root = ReactDOM.createRoot(container);
+  root.render(<App />);
+
+</script>
+
+    <script src="react-basics.js"></script>
+    <!-- 
+      returns 'This is an external library.'
+      src can be any address whether local or on the internet
+    -->
+    <script src="https://unpkg.com/supersimpledev@8.6.4/external-library.js"></script>
+
+
+  </body>
+</html>

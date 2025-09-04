@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <!--creates a container obj type-->
+    <div class="js-container"></div>
+
+    <!--web and mobile app features-->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <!--website feaqtures-->
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev@8.6.4/dayjs.js"></script>
+
+    <!--library that compiles javascript ; JSX Javascript XML ; allows us to us html within javascript-->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      //fragment ChatInput
+      function ChatInput() {
+        //PascalCase
+        //input size unit is in "characters"
+        return (
+          <>
+            <input 
+              placeholder="send a message to chatbot" 
+              size="30" 
+            />
+            <button>
+              send  
+            </button>
+          </>
+        );
+      }
+
+      //chat message component
+      //testing
+      function ChatMessage({ message, sender }) {
+        // const message = props.message;
+        // const sender = props.sender;
+        // const { message, sender } = props;
+
+        // if (sender === 'robot') {
+        //   return(
+        //     <div>
+        //       <img src="img\robot.png" width="50" />
+        //       {message}            
+        //     </div>
+        //   );
+        // } 
+
+        return(
+            <div>
+              {sender === 'robot' && (
+                <img src="img\robot.png" width="50" />
+              )}
+              {message}
+              {sender === 'user' && (
+                <img src="img\user.png" width="50" />
+              )}
+            </div>
+          );
+        }
+
+      //can insert into a div as an html element
+      //<ComponentName></ComponentName>
+      //or
+      //<ComponentName />
+      //or less ideal ;
+      //{ComponentName()}
+
+      //components --> lets us make lego blocks for our website --> makes building easier
+
+      //fragments are like components but wuthout div needed ; <></> instead
+      //fragment:<></> as component:<div></div>
+      //div is a block element ; it takes up an entire line by itself
+
+       //fragment to contain the other components/fragments; like nesting dolls 
+      function App() {
+        return (
+          <>
+            <ChatInput />
+            <ChatMessage 
+              message="hello chatbot" 
+              sender="user" 
+            />
+            <ChatMessage 
+              message="hi :) how are you doing?" 
+              sender="robot" 
+            />
+            <ChatMessage 
+              message="can get me today's date?" 
+              sender="user" 
+            />
+            <ChatMessage 
+              message="today is September 4" 
+              sender="robot" 
+            />
+          </>
+        );
+      }
+
+      // const app = (
+      //   <>
+      //     <ChatInput />
+      //     <ChatMessage 
+      //       message="hello chatbot" 
+      //       sender="user" 
+      //     />
+      //     <ChatMessage 
+      //       message="hi :) how are you doing?" 
+      //       sender="robot" 
+      //     />
+      //     <ChatMessage 
+      //       message="can get me today's date?" 
+      //       sender="user" 
+      //     />
+      //     <ChatMessage 
+      //       message="today is September 4" 
+      //       sender="robot" 
+      //     />
+      //   </>
+      // );
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+
+    <script src="react-basics.js"></script>
+    <!-- 
+      returns 'This is an external library.'
+      src can be any address whether local or on the internet
+    -->
+    <script src="https://unpkg.com/supersimpledev@8.6.4/external-library.js"></script>
+  </body>
+</html>
