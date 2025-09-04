@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <!--creates a container obj type-->
+    <div class="js-container"></div>
+
+    <!--web and mobile app features-->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <!--website feaqtures-->
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev@8.6.4/dayjs.js"></script>
+
+    <!--library that compiles javascript ; JSX Javascript XML ; allows us to us html within javascript-->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+      function ProductDetails({ name, price, discountPrice, imgSrc }) {
+        return (
+          <div>
+            <img src={imgSrc} width='75'/>
+            <p>{name}</p>
+            {discountPrice ? (
+              <>
+                <p><del>Price: ${price}</del></p>
+                <p>Discount price: ${discountPrice}</p>
+              </>
+            ) : (
+              <p>Price: ${price}</p>
+            )}
+            <button>Add to Cart</button>
+            <p />
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div>
+            <ProductDetails 
+              name="Cotton socks" 
+              price="10.90" 
+              discountPrice="5.45" 
+              imgSrc="img\cotton-socks.png"
+            />
+            <ProductDetails 
+              name="Tennis Balls" 
+              price="6.00" 
+              imgSrc="img\tennis-balls.png"
+            />
+            <ProductDetails 
+              name="Plain T-Shirt" 
+              price="7.99" 
+              imgSrc="img\plain-t-shirt.png"
+            />
+          </div>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+
+    </script>
+    <script src="react-basics.js"></script>
+  </body>
+</html>
