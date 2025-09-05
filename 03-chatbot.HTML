@@ -19,15 +19,31 @@
     <script type="text/babel">
       //fragment ChatInput
       function ChatInput() {
+
+        function saveInputText(event) {
+          //use State to save data that changes over time
+          const [inputText, setInputText] = React.useState('');
+          //event.target points to the input--> value of input
+          setInputText(event.target.value)
+        }
         //PascalCase
         //input size unit is in "characters"
+
+        function sendMessage() {
+          console.log(inputText);
+        }
+
         return (
           <>
             <input 
               placeholder="send a message to chatbot" 
               size="30" 
+              //event
+              onChange={saveInputText}
             />
-            <button>
+            <button
+              onClick={sendMessage}
+            >
               send  
             </button>
           </>
@@ -51,38 +67,21 @@
         // } 
 
         return(
-            <div>
-              {sender === 'robot' && (
-                <img src="img\robot.png" width="50" />
-              )}
-              {message}
-              {sender === 'user' && (
-                <img src="img\user.png" width="50" />
-              )}
-            </div>
-          );
-        }
+          <div>
+            {sender === 'robot' && (
+              <img src="img\robot.png" width="50" />
+            )}
+            {message}
+            {sender === 'user' && (
+              <img src="img\user.png" width="50" />
+            )}
+          </div>
+        );
+      }
 
-      //can insert into a div as an html element
-      //<ComponentName></ComponentName>
-      //or
-      //<ComponentName />
-      //or less ideal ;
-      //{ComponentName()}
-
-      //components --> lets us make lego blocks for our website --> makes building easier
-
-      //fragments are like components but wuthout div needed ; <></> instead
-      //fragment:<></> as component:<div></div>
-      //div is a block element ; it takes up an entire line by itself
-
-       //fragment to contain the other components/fragments; like nesting dolls 
-
-
-      function App() {
-
-        //this is an array
-        const chatMessages = [{
+      function ChatMessages() {
+        //convert chatMessages into State
+        const [chatMessages, setChatMessages] = React.useState([{
           message: 'hello chatbot',
           sender: 'user',
           id: 'id1'
@@ -98,21 +97,54 @@
           message: 'today is September 4',
           sender: 'robot',
           id: 'id4'
-        }];
+        }]);
 
-        //arrowfucntion
-        // const chatMessageComponents = chatMessages.map((n) => {
-        //   return (
-        //     <ChatMessage
-        //       message = {n.message}
-        //       sender = {n.sender}
-        //     />
-        //   );
-        // });
+        //array destructuring ; order matters
+        // const [chatMessages, setChatMessages] = array;
+        // const chatMessages = array[0];
+        // //update data add message
+        // const setChatMessages = array[1];
+        
+        // //this is an array
+        // //convert into state
+        // const chatMessages = [{
+        //   message: 'hello chatbot',
+        //   sender: 'user',
+        //   id: 'id1'
+        // }, {
+        //   message: 'hi :) how are you doing?',
+        //   sender: 'robot',
+        //   id: 'id2'
+        // }, {
+        //   message: 'can you get me todays date?',
+        //   sender: 'user',
+        //   id: 'id3'
+        // }, {
+        //   message: 'today is September 4',
+        //   sender: 'robot',
+        //   id: 'id4'
+        // }];
+        
+        //event handler for onClick event prop
+        //event prop onClick camelCase
+        //event handlers let us run functions when we interact
+        //w website
+        function sendMessage() {
+          setChatMessages([
+            //make a copy of chatMessages so we dont edit data directly
+            ...chatMessages, 
+            {
+              message: 'test',
+              sender: 'user',
+              id: crypto.randomUUID()
+            }
+          ]);
+        }
 
         return (
           <>
-            <ChatInput />
+            <button onClick={sendMessage}>Send Message</button>
+
             {chatMessages.map((n) => {
               return (
                 <ChatMessage
@@ -122,6 +154,15 @@
                 />
               );
             })}
+          </>
+        );
+      }
+
+      function App() {
+        return (
+          <>
+            <ChatInput />
+            <ChatMessages />
           </>
         );
       }
