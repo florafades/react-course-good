@@ -11,6 +11,8 @@
     <script src="https://unpkg.com/supersimpledev/react.js"></script>
     <!--website feaqtures-->
     <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <!--external librry is code that someone else wrote that we want to use in our code-->
+    <script src="https://unpkg.com/supersimpledev/chatbot.js"></script>
 
     <script src="https://unpkg.com/supersimpledev@8.6.4/dayjs.js"></script>
 
@@ -18,18 +20,63 @@
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
       //fragment ChatInput
-      function ChatInput() {
-        //PascalCase
-        //input size unit is in "characters"
+      function ChatInput({ chatMessages, setChatMessages }) {
+        // const [x, y] = React.useState(''); --> y() is a function that updates x variable --> y(value) will set x = value
+        // x is a value, the current state. y is a function that updates the state of x
+        const [inputText, setInputText] = React.useState('');
+
+        //event is an object containng details about the change, function runs with each and every character change as user types
+        function saveInputText(event) {
+
+          //event.target = the input element
+          //event.target.value = the current value of the input element
+          setInputText(event.target.value);
+        }
+
+        function sendMessage() {
+
+          const newChatMessages = [
+            //make a copy of chatMessages array[0]
+            // ... spread operator 
+            //takes values in array and copies them into a new array
+            ...chatMessages,
+            //adds the following to the end of the array copy
+            {
+              message: inputText,
+              sender: 'user',
+              id: crypto.randomUUID()
+            },
+          ]
+
+          setChatMessages(newChatMessages);
+
+          const response = Chatbot.getResponse(inputText);
+          setChatMessages([
+            ...newChatMessages,
+            {
+              message: response,
+              sender: 'robot',
+              id: crypto.randomUUID()
+            },
+          ]);
+
+          setInputText('');
+
+
+        }
+        
+
         return (
           <>
             <input 
               placeholder="send a message to chatbot" 
               size="30" 
+              onChange={saveInputText}
+              value={inputText}
             />
-            <button>
-              send  
-            </button>
+            <button
+              onClick={sendMessage}
+            >send</button>
           </>
         );
       }
@@ -78,8 +125,28 @@
 
        //fragment to contain the other components/fragments; like nesting dolls 
 
-      function ChatMessages() {
-        const array = React.useState([{
+      function ChatMessages({ chatMessages }) {
+        return(
+          <>
+
+            {chatMessages.map((chatMessage) => {
+              return (
+                <ChatMessage
+                  message= {chatMessage.message}
+                  sender= {chatMessage.sender}
+                  key= {chatMessage.id}
+                />
+              );
+            })}
+          </>
+        );
+      }
+
+
+      function App() {
+
+         // shortcut for : const [chatMessages, setChatMessages] = array;
+        const [chatMessages, setChatMessages] = React.useState([{
           message: 'hello chatbot',
           sender: 'user',
           id: 'id1'
@@ -97,42 +164,23 @@
           id: 'id4'
         }]);
 
-      function sendMessage () {
-        // .push adds value to end of an array obj
-        chatMessages.push({
-          message: 'test',
-          sender: 'user',
-          id: crypto.randomUUID()
-        });
-      
-
-        console.log(chatMessages);
-      }
-
-      return(
-        <>
-          <button onClick={sendMessage}>Send Message</button>
-
-          {chatMessages.map((chatMessage) => {
-            return (
-              <ChatMessage
-                message= {chatMessage.message}
-                sender= {chatMessage.sender}
-                key= {chatMessage.id}
-              />
-            );
-          })}
-        </>
-      );
-      }
-
-
-      function App() {
+        //array[0] is chatMessages, array[1] is setChatMessages; array destructuring; order matters
+        // const [chatMessages, setChatMessages] = array;
+        //array React is a list of arrays.. array[0] is first item in list which is the original array within the array
+        // const chatMessages = array[0];
+        // //function that updates the data
+        // //this function tells react that data changed and to update the html
+        // const setChatMessages = array[1];
 
         return (
           <>
-            <ChatInput />
-            <ChatMessages />
+            <ChatInput
+              chatMessages={chatMessages}
+              setChatMessages ={setChatMessages}
+            />
+            <ChatMessages
+              chatMessages={chatMessages}
+            />
            
           </>
         );

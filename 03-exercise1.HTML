@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <!--creates a container obj type-->
+    <div class="js-container"></div>
+
+    <!--web and mobile app features-->
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <!--website feaqtures-->
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev@8.6.4/dayjs.js"></script>
+    <!--library that compiles javascript ; JSX Javascript XML ; allows us to us html within javascript-->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function ClickCounter ({count, increaseCount}) {
+        return (
+          <button onClick={increaseCount}>
+            Clicked {count} {count === 1 ? 'time' : 'times'}
+          </button>
+        );
+      }
+
+      function ResetButton({resetCount}) {
+
+        return (
+          <button onClick={resetCount}>
+            Reset
+          </button>
+        );
+      }
+      
+      function App() {
+        const [count, setCount] = React.useState(0);
+
+        function increaseCount() {
+          setCount(count + 1);
+        }
+
+        function resetCount() {
+          setCount(0);
+        }
+
+        return (
+          <div>
+            <ClickCounter 
+              count={count}
+              increaseCount={increaseCount} // Pass the function as a prop
+            />
+            <ClickCounter 
+              count={count}
+              increaseCount={increaseCount} // Pass the function as a prop
+            />
+            <ResetButton 
+              count={count}
+              resetCount={resetCount}
+            />
+          </div>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+
+    <script src="react-basics.js"></script>
+    <!-- 
+      returns 'This is an external library.'
+      src can be any address whether local or on the internet
+    -->
+    <script src="https://unpkg.com/supersimpledev@8.6.4/external-library.js"></script>
+  </body>
+</html>
